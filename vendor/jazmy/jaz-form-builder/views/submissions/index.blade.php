@@ -14,39 +14,30 @@
                         </a>
                     </h5>
                 </div>
-<?php 
-    // Echo all contacts first and last names
-$response = HubSpot::contacts()->all();
-    foreach ($response->contacts as $contact) {
-        var_dump($contact);
-    }
-?>
+
                 @if($submissions->count())
                     <div class="table-responsive">
                         <table class="table table-bordered d-table table-striped pb-0 mb-0">
                             <thead>
                                 <tr>
                                     <th class="five">#</th>
-                                    <!-- <th class="fifteen">User Name</th> -->
+                                    <th class="fifteen">User Name</th>
                                     @foreach($form_headers as $header)
-                                        <th>{{ $header['label'] ?? $header['name'] }}</th>
+                                        <th>{{ $header['label'] ?? title_case($header['name']) }}</th>
                                     @endforeach
                                     <th class="fifteen">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach($submissions as $submission)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <!-- <td>{{ $submission->user->name ?? 'n/a' }}</td> -->
+                                        <td>{{ $submission->user->name ?? 'n/a' }}</td>
                                         @foreach($form_headers as $header)
                                             <td>
-
                                                 {{ 
                                                     $submission->renderEntryContent(
-                                                        $header['name'], $header['type']
-                                                        //, true
+                                                        $header['name'], $header['type'], true
                                                     ) 
                                                 }}
                                             </td>
