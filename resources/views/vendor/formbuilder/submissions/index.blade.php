@@ -14,13 +14,6 @@
                         </a>
                     </h5>
                 </div>
-<?php 
-    // Echo all contacts first and last names
-$response = HubSpot::contacts()->all();
-    foreach ($response->contacts as $contact) {
-        var_dump($contact);
-    }
-?>
                 @if($submissions->count())
                     <div class="table-responsive">
                         <table class="table table-bordered d-table table-striped pb-0 mb-0">
