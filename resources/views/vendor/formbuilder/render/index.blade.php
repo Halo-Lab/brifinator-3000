@@ -9,6 +9,9 @@
                     <h5 class="card-title">{{ $pageTitle }}</h5>
                 </div>
 
+                <input type="hidden" name="hubspot_guid" id="hubspot_guid" value="{{$form->hubspot_guid}}">
+                <input type="hidden" name="portal_id" id="portal_id" value="{{$form->portal_id}}">
+                <input type="hidden" name="form_action" id="form_action" value="submitForm">
                 <form action="{{ route('formbuilder::form.submit', $form->identifier) }}" method="POST" id="submitForm" enctype="multipart/form-data">
                     @csrf
                     

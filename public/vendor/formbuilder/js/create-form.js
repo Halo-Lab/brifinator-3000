@@ -1,17 +1,8 @@
-jQuery(function() {
-    $('#visibility').change(function(e) {
-        e.preventDefault()
-        var ref = $(this)
-
-        if (ref.val() == "" || ref.val() == 'PUBLIC') {
-            $('#allows_edit_DIV').hide()
-        } else {
-            $('#allows_edit_DIV').slideDown()
-            $('#allows_edit').val('0')
-        }
-    });
-
-    const controlOptions = {
+      const controlOptions = {
+        disable: {
+            elements: ['button'],
+            formActions: true,
+        },
         elements: [
         {
             tag: 'input',
@@ -36,7 +27,7 @@ jQuery(function() {
                 required: false,
                 type: 'email',
                 className: '',
-                name:''
+                name:'email'
             },
             config: {
                 label: 'Email',
@@ -93,29 +84,44 @@ jQuery(function() {
         ],
     };
 
-const defaults_formeo = {
-    editorContainer: '#formeo-editor',
-    svgSprite: 'https://draggable.github.io/formeo/assets/img/formeo-sprite.svg',
-    dataType: 'json',
-    controls: controlOptions,
-    config:{
-        fields:{
-            all:{
-                events:{
-                    onRender: element => {
-                      if($(element).find("#"+element.id+"-attrs-name").val() === ""){
-                          $(element).find("#"+element.id+"-attrs-name").val(element.id);
-                      }
-                  },
-              }
-          }
-      }
-  }
-};
-const formData = window._form_builder_content ? JSON.parse(window._form_builder_content) : {};
+    const defaults_formeo = {
+        editorContainer: '#formeo-editor',
+        svgSprite: 'https://draggable.github.io/formeo/assets/img/formeo-sprite.svg',
+        dataType: 'json',
+        debug: true,
+        controls: controlOptions,
+    };
 
-var formeo = new FormeoEditor(defaults_formeo, formData);
+    const formData = window._form_builder_content ? JSON.parse(window._form_builder_content) : {};
 
+    var formeo = new FormeoEditor(defaults_formeo, formData);
+
+
+
+    jQuery(function() {
+        $('#visibility').change(function(e) {
+            e.preventDefault()
+            var ref = $(this)
+
+            if (ref.val() == "" || ref.val() == 'PUBLIC') {
+                $('#allows_edit_DIV').hide()
+            } else {
+                $('#allows_edit_DIV').slideDown()
+                $('#allows_edit').val('0')
+            }
+        });
+
+
+
+        $("body").on("input", ".prev-label>label", function(){
+            let field_id = $(this).closest("li").attr('id');
+            let field_new_name = $(this).text().toLowerCase().replace(/\s+/g, '');
+
+            $("#" + field_id + "-attrs-name").val(field_new_name);
+            $("#prev-" + field_id).attr("name", field_new_name);
+            formeo.formData.fields[field_id].attrs.name = field_new_name;
+
+        });
 
     // ___________-------------------------------
     // create the form editor
@@ -157,26 +163,44 @@ var formeo = new FormeoEditor(defaults_formeo, formData);
                 })
                 return
             }
-        // make sure the form builder is not empty
-    // if (! formBuilder.actions.getData().length) {
-    //     swal({
-    //         title: "Error",
-    //         text: "The form builder cannot be empty",
-    //         icon: 'error',
-    //     })
-    //     return
-    // }
+
+
 
         // ask for confirmation
         sConfirm("Save this form definition?", function() {
             fbSaveBtn.attr('disabled', 'disabled');
             fbClearBtn.attr('disabled', 'disabled');
 
-            // var formBuilderJSONData = formBuilder.actions.getData('json')
-            var formBuilderJSONData = formeo.json
-            // console.log(formBuilder.actions.getData('json'))
-            // var formBuilderArrayData = formBuilder.actions.getData()
-            // console.log(formBuilderArrayData)
+            var formBuilderJSONData = formeo.json;
+            var method = form.data('formMethod') ? 'PUT' : 'POST';
+            var hubspot_guid = $('#hubspot_guid').val();
+            var portal_id = '';
+            $.ajax({
+                url: '/hubspot/save',
+                dataType: 'json',
+                async : false,
+                data: {name: $('#name').val(), form_builder_json: formBuilderJSONData, _token: window.FormBuilder.csrfToken, hubspot_guid: hubspot_guid},
+                method: method,
+            })
+            .done(function(response) {
+                console.log("success");
+                console.log(response);
+                hubspot_guid = response.hubsput_guid;
+                portal_id = response.portal_id;
+                swal({
+                    title: "Form Saved!",
+                    text: response.details || '',
+                    icon: 'success',
+                })
+            })
+            .fail(function(response) {
+                console.log("error");
+                console.log("response",response);
+            })
+            .always(function(response) {
+                console.log("complete");
+                console.log('response ',response);
+            });
 
             var postData = {
                 name: $('#name').val(),
@@ -185,10 +209,11 @@ var formeo = new FormeoEditor(defaults_formeo, formData);
                 is_template: $('#is_template').is(':checked') ? 1 : 0,
                 template_name: $('#template_name').val(),
                 form_builder_json: formBuilderJSONData,
+                hubspot_guid: hubspot_guid,
+                portal_id: portal_id,
                 _token: window.FormBuilder.csrfToken
             }
-
-            var method = form.data('formMethod') ? 'PUT' : 'POST'
+            
             jQuery.ajax({
                 url: form.attr('action'),
                 processData: true,
@@ -213,10 +238,6 @@ var formeo = new FormeoEditor(defaults_formeo, formData);
                         window.location = response.dest
                     }, 1500);
 
-                    // clear out the form
-                    // $('#name').val('')
-                    // $('#visibility').val('')
-                    // $('#allows_edit').val('0')
                 } else {
                     swal({
                         title: "Error",

@@ -36,7 +36,9 @@ class SaveFormRequest extends FormRequest
             'allows_edit' => 'required|boolean',
             'form_builder_json' => 'required|json',
             'is_template' => 'boolean',
-            'template_name' => 'max:100'
+            'template_name' => 'max:100',
+            'hubspot_guid' => 'max:100',
+            'portal_id' => 'max:100'
         ];
     }
 }
