@@ -115,7 +115,7 @@
 
         $("body").on("input", ".prev-label>label", function(){
             let field_id = $(this).closest("li").attr('id');
-            let field_new_name = $(this).text().toLowerCase().replace(/\s+/g, '');
+            let field_new_name = $(this).text().toLowerCase().replace(/[^a-zа-я0-9]+/g, '').replace(/\s+/g, '');
 
             $("#" + field_id + "-attrs-name").val(field_new_name);
             $("#prev-" + field_id).attr("name", field_new_name);
