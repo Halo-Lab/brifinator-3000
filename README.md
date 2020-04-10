@@ -1,5 +1,5 @@
 <p align="center">
-	<a href="https://www.halo-lab.com/?utm_source=github-halo-lab">
+	<a href="https://www.halo-lab.com/?utm_source=github-brifinator-3000">
   		<img src="http://api.halo-lab.com/wp-content/uploads/dev_halo.svg" alt="Developed in Halo lab" height="60">
 	</a>
 </p>
