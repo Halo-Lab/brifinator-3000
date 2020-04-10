@@ -36,6 +36,7 @@
                                         <!-- <td>{{ $submission->user->name ?? 'n/a' }}</td> -->
                                         @foreach($form_headers as $header)
                                             <td>
+
                                                 {{ 
                                                     $submission->renderEntryContent(
                                                         $header['name'], $header['type']

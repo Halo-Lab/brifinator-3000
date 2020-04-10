@@ -25,7 +25,8 @@
                 <form action="{{ route('formbuilder::forms.update', $form) }}" method="POST" id="createFormForm" data-form-method="PUT">
                     @csrf 
                     @method('PUT')
-                    
+                    <input type="hidden" name="hubspot_guid" id="hubspot_guid" value="{{$form->hubspot_guid}}">
+                    <input type="hidden" name="portal_id" id="portal_id" value="{{$form->portal_id}}">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
@@ -113,10 +114,9 @@
                 </form>
 
                 <div class="card-footer" id="fb-editor-footer">
-                <!-- <div class="card-footer" id="fb-editor-footer" style="display: none;"> -->
-                    <button type="button" class="btn btn-primary fb-clear-btn">
+                    <!-- <button type="button" class="btn btn-primary fb-clear-btn">
                         <i class="fa fa-remove"></i> Clear Form 
-                    </button> 
+                    </button>  -->
                     <button type="button" class="btn btn-primary fb-save-btn">
                         <i class="fa fa-save"></i> Submit &amp; Save Form
                     </button>

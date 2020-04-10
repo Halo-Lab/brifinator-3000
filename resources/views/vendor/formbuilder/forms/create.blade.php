@@ -17,6 +17,8 @@
 
                 <form action="{{ route('formbuilder::forms.store') }}" method="POST" id="createFormForm">
                     @csrf 
+                    <input type="hidden" name="hubspot_guid" id="hubspot_guid" value="">
+                    <input type="hidden" name="portal_id" id="portal_id" value="">
                     
                     <div class="card-body">
                         <div class="row">
@@ -69,6 +71,19 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="visibility" class="col-form-label">Use as template</label>
+                                    <input type="checkbox" id="is_template" name="is_template">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="visibility" class="col-form-label">Template name</label>
+                                    <input type="text" id="template_name" name="template_name" value="">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -86,9 +101,9 @@
                 </form>
 
                 <div class="card-footer" id="fb-editor-footer" style="display: none;">
-                    <button type="button" class="btn btn-primary fb-clear-btn">
+                    <!-- <button type="button" class="btn btn-primary fb-clear-btn clear-form">
                         <i class="fa fa-remove"></i> Clear Form 
-                    </button> 
+                    </button> -->
                     <button type="button" class="btn btn-primary fb-save-btn">
                         <i class="fa fa-save"></i> Submit &amp; Save Form
                     </button>

@@ -35,6 +35,10 @@
 					@csrf 
 					@method('DELETE')
 
+                    <input type="hidden" name="hubspot_guid" id="hubspot_guid" value="{{$form->hubspot_guid}}">
+                	<input type="hidden" name="form_action" id="form_action" value="deleteForm">
+
+
 					<button type="submit" class="btn btn-danger btn-sm confirm-form" data-form="deleteFormForm_{{ $form->id }}" data-message="Delete form '{{ $form->name }}'?" title="Delete form '{{ $form->name }}'">
 						<i class="fa fa-trash-o"></i> 
 						Delete
