@@ -76,7 +76,9 @@ class FormController extends Controller
         DB::beginTransaction();
 
         // generate a random identifier
-        $input['identifier'] = $user->id.'-'.Helper::randomString(20);
+        if(empty($input['identifier'])){
+            $input['identifier'] = $user->id.'-'.Helper::randomString(20);
+        }
         $created = Form::create($input);
 
         try {

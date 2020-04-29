@@ -37,6 +37,16 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="identifier" class="col-form-label">Slug</label>
+                                    <input id="identifier" type="text" class="form-control" name="identifier" value="" placeholder="Enter Form Slug">
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                    <i class="fa fa-info-circle"></i> 
+                                    If not complete,Slug generated automatically
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label for="visibility" class="col-form-label">Form Visibility</label>
 
                                     <select name="visibility" id="visibility" class="form-control" required="required">
