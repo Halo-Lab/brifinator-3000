@@ -27,6 +27,7 @@
                     @method('PUT')
                     <input type="hidden" name="hubspot_guid" id="hubspot_guid" value="{{$form->hubspot_guid}}">
                     <input type="hidden" name="portal_id" id="portal_id" value="{{$form->portal_id}}">
+
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
@@ -40,6 +41,16 @@
                                             <strong>{{ $errors->first('name') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="identifier" class="col-form-label">Slug</label>
+                                    <input id="identifier" type="text" class="form-control" name="identifier" value="{{ old('name') ?? $form->identifier }}" placeholder="Enter Form Slug">
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                    <i class="fa fa-info-circle"></i> 
+                                    If not complete,Slug generated automatically
                                 </div>
                             </div>
                             <div class="col-md-4">

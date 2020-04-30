@@ -14,9 +14,11 @@ class IsTemplate extends Migration
     public function up()
     {
         Schema::table('forms', function (Blueprint $table) {
-             $table->boolean('is_template')->default(0);
-             $table->string('template_name')->default('');
-             $table->string('image')->default('');
+            $table->boolean('is_template')->default(false);
+            $table->string('template_name')->nullable();
+            $table->string('hubspot_guid')->nullable();
+            $table->string('portal_id')->nullable();
+            $table->string('image')->nullable();
         });
     }
 

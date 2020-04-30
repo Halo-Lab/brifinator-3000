@@ -1,127 +1,138 @@
-      const controlOptions = {
-        disable: {
-            elements: ['button'],
-            formActions: true,
+$("#identifier").keyup(function(event) {
+    event.preventDefault();
+    let reg = /[а-яА-ЯёЁ]/g;
+    let new_val = $(this).val();
+    if ($(this).val().search(reg) !=  -1) {
+        new_val = new_val.replace(reg, '')
+    }
+    $(this).val(new_val.replace(/ /g, '-'));
+});
+
+
+const controlOptions = {
+    disable: {
+        elements: ['button'],
+        formActions: true,
+    },
+    elements: [
+    {
+        tag: 'input',
+        attrs: {
+            required: false,
+            type: 'text',
+            className: '',
+            name:''
         },
-        elements: [
-        {
-            tag: 'input',
-            attrs: {
-                required: false,
-                type: 'text',
-                className: '',
-                name:''
-            },
-            config: {
-                label: 'Input text',
-            },
-            meta: {
-                group: 'common',
-                icon: '<svg class="svg-icon f-i-text-input"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-text-input"></use></svg>',
-                id: 'text-input'
-            },
+        config: {
+            label: 'Input text',
         },
-        {
-            tag: 'input',
-            attrs: {
-                required: false,
-                type: 'email',
-                className: '',
-                name:'email'
-            },
-            config: {
-                label: 'Email',
-            },
-            meta: {
-                group: 'common',
-                icon: '@',
-                id: 'email'
-            },
+        meta: {
+            group: 'common',
+            icon: '<svg class="svg-icon f-i-text-input"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-text-input"></use></svg>',
+            id: 'text-input'
         },
-        {
-            tag: 'input',
-            attrs: {
-                required: false,
-                type: 'checkbox',
-                className: '',
-                name:''
-            },
-            config: {
-                label: 'Checkbox Group',
-            },
-            meta: {
-                group: 'common',
-                icon: '<svg class="svg-icon f-i-checkbox"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-checkbox"></use></svg>',
-                id: 'checkbox'
-            },
-            options: [
-            {label: 'Option 1', value: 'opt1', selected: false, neme:''},
-            {label: 'Option 2', value: 'opt2', selected: false, neme:''},
-            ],
+    },
+    {
+        tag: 'input',
+        attrs: {
+            required: false,
+            type: 'email',
+            className: '',
+            name:'email'
         },
-        {
-            tag: 'input',
-            attrs: {
-                required: false,
-                type: 'radio',
-                className: '',
-                name:''
-            },
-            config: {
-                label: 'Radio Group',
-            },
-            meta: {
-                group: 'common',
-                icon: '<svg class="svg-icon f-i-radio-group"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-radio-group"></use></svg>',
-                id: 'radio'
-            },
-            options: [
-            {label: 'Option 1', value: 'opt1', selected: false},
-            {label: 'Option 2', value: 'opt2', selected: false},
-            {label: 'Option 3', value: 'opt3', selected: false},
-            ],
-        }
+        config: {
+            label: 'Input Email',
+        },
+        meta: {
+            group: 'common',
+            icon: '@',
+            id: 'email'
+        },
+    },
+    {
+        tag: 'input',
+        attrs: {
+            required: false,
+            type: 'checkbox',
+            className: '',
+            name:''
+        },
+        config: {
+            label: 'Checkbox Group',
+        },
+        meta: {
+            group: 'common',
+            icon: '<svg class="svg-icon f-i-checkbox"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-checkbox"></use></svg>',
+            id: 'checkbox'
+        },
+        options: [
+        {label: 'Option 1', value: 'opt1', selected: false, neme:''},
+        {label: 'Option 2', value: 'opt2', selected: false, neme:''},
         ],
-    };
+    },
+    {
+        tag: 'input',
+        attrs: {
+            required: false,
+            type: 'radio',
+            className: '',
+            name:''
+        },
+        config: {
+            label: 'Radio Group',
+        },
+        meta: {
+            group: 'common',
+            icon: '<svg class="svg-icon f-i-radio-group"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#f-i-radio-group"></use></svg>',
+            id: 'radio'
+        },
+        options: [
+        {label: 'Option 1', value: 'opt1', selected: false},
+        {label: 'Option 2', value: 'opt2', selected: false},
+        {label: 'Option 3', value: 'opt3', selected: false},
+        ],
+    }
+    ],
+};
 
-    const defaults_formeo = {
-        editorContainer: '#formeo-editor',
-        svgSprite: 'https://draggable.github.io/formeo/assets/img/formeo-sprite.svg',
-        dataType: 'json',
-        debug: true,
-        controls: controlOptions,
-    };
+const defaults_formeo = {
+    editorContainer: '#formeo-editor',
+    svgSprite: 'https://draggable.github.io/formeo/assets/img/formeo-sprite.svg',
+    dataType: 'json',
+    debug: true,
+    controls: controlOptions,
+};
 
-    const formData = window._form_builder_content ? JSON.parse(window._form_builder_content) : {};
+const formData = window._form_builder_content ? JSON.parse(window._form_builder_content) : {};
 
-    var formeo = new FormeoEditor(defaults_formeo, formData);
-
-
-
-    jQuery(function() {
-        $('#visibility').change(function(e) {
-            e.preventDefault()
-            var ref = $(this)
-
-            if (ref.val() == "" || ref.val() == 'PUBLIC') {
-                $('#allows_edit_DIV').hide()
-            } else {
-                $('#allows_edit_DIV').slideDown()
-                $('#allows_edit').val('0')
-            }
-        });
+var formeo = new FormeoEditor(defaults_formeo, formData);
 
 
 
-        $("body").on("input", ".prev-label>label", function(){
-            let field_id = $(this).closest("li").attr('id');
-            let field_new_name = $(this).text().toLowerCase().replace(/[^a-zа-я0-9]+/g, '').replace(/\s+/g, '');
+jQuery(function() {
+    $('#visibility').change(function(e) {
+        e.preventDefault()
+        var ref = $(this)
 
-            $("#" + field_id + "-attrs-name").val(field_new_name);
-            $("#prev-" + field_id).attr("name", field_new_name);
-            formeo.formData.fields[field_id].attrs.name = field_new_name;
+        if (ref.val() == "" || ref.val() == 'PUBLIC') {
+            $('#allows_edit_DIV').hide()
+        } else {
+            $('#allows_edit_DIV').slideDown()
+            $('#allows_edit').val('0')
+        }
+    });
 
-        });
+
+
+    $("body").on("input", ".prev-label>label", function(){
+        let field_id = $(this).closest("li").attr('id');
+        let field_new_name = $(this).text().toLowerCase().replace(/[^a-zа-я0-9]+/g, '').replace(/\s+/g, '');
+
+        $("#" + field_id + "-attrs-name").val(field_new_name);
+        $("#prev-" + field_id).attr("name", field_new_name);
+        formeo.formData.fields[field_id].attrs.name = field_new_name;
+
+    });
 
     // ___________-------------------------------
     // create the form editor
@@ -208,6 +219,7 @@
                 allows_edit: $('#allows_edit').val(),
                 is_template: $('#is_template').is(':checked') ? 1 : 0,
                 template_name: $('#template_name').val(),
+                identifier: $('#identifier').val(),
                 form_builder_json: formBuilderJSONData,
                 hubspot_guid: hubspot_guid,
                 portal_id: portal_id,
