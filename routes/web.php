@@ -45,3 +45,14 @@ Route::group(
 		Route::post('/submit','HubspotSubmissionController@submission');
 	}
 );
+
+Route::middleware('web')
+->prefix(config('formbuilder.url_path', '/form-builder'))
+->namespace('Forms')
+->name('formbuilder::')
+->group(function () {
+	/**
+	 * Form management routes
+	 */
+	Route::resource('/forms', 'MyFormController');
+});
